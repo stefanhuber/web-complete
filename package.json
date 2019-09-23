@@ -2,6 +2,12 @@
   "name": "web-complete",
   "version": "1.0.0",
   "description": "A lightweight, dependency-free, styleable autocomplete web component",
+  "keywords": ["autocomplete", "web-component"],
+  "author": {
+    "name": "Stefan Huber",
+    "email": "mail@stefanhuber.at",
+    "url": "https://www.stefanhuber.at"
+  },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "es2015": "dist/esm/index.mjs",
@@ -14,6 +20,14 @@
     "dist/",
     "loader/"
   ],
+  "homepage": "https://github.com/stefanhuber/web-complete",
+  "bugs": {
+    "url": "https://github.com/stefanhuber/web-complete/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stefanhuber/web-complete.git"
+  },
   "scripts": {
     "build": "stencil build --docs",
     "start": "stencil build --dev --watch --serve",
