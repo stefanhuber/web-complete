@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Web Complete Demo</title>
+
+    <script src='https://unpkg.com/web-complete@1.0.0/dist/web-complete.js'></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+
+  <section style="padding:50px;">
+    <web-complete input-placeholder="test" min-input="2" max-suggestions="7"></web-complete>
+  </section>
+            
+  <script>
+    const webcomplete = document.querySelector('web-complete');
+    
+    webcomplete.cssClasses = {
+      "wrapper": "dropdown",
+      "input": "form-control",
+      "suggestions": "dropdown-menu show",
+      "suggestion": "dropdown-item",
+      "active": "active"
+    };
+    
+    webcomplete.suggestionGenerator = function(text) {
+    return fetch("/demo/countries.json")
+      .then(response => response.json())
+      .then(countries => countries.filter(country => {
+        const name = country.name.toLowerCase();
+        return name.search(text.toLowerCase()) >= 0;
+      }))
+      .then(countries => countries.map(country => {
+        return {
+          text:country.name,
+          value:country.code
+        };
+      }));      
+    };
+
+    webcomplete.addEventListener('selected', function(e) {
+      console.log(e);
+    });
+    webcomplete.addEventListener('unselected', function(e) {
+      console.log(e);
+    });
+  </script>
+</body>
+</html>
