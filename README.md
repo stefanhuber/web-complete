@@ -7,7 +7,7 @@
 ## Script tag
 
 ```html
-<script src='https://unpkg.com/web-complete@1.0.0/dist/web-complete.js'></script>
+<script src='https://unpkg.com/web-complete@1.0.2/dist/web-complete.js'></script>
 ```
 
 ## Node Module
