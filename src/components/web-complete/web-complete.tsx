@@ -9,13 +9,13 @@ export class Autocomplete {
   @State() text = "";
   @State() value = "";
   @State() activeIndex = -1;
-  @State() data:{text:string, value:string}[] = [];
+  @State() data:Array<{text:string, value:string}> = [];
 
   @Prop() inputPlaceholder = "";
   @Prop() disabled = false;
   @Prop() minInput = 0;
   @Prop() maxSuggestions = 5;
-  @Prop() suggestionGenerator:(text) => Promise<{text:string, value:string}[]>;
+  @Prop() suggestionGenerator:(text:string) => Promise<Array<{text:string, value:string}>>;
   @Prop() cssClasses = {
     wrapper: "",
     input: "",
@@ -73,6 +73,7 @@ export class Autocomplete {
 
   clearData() {    
     this.data = [];
+    this.activeIndex = -1;
   }
 
   clearSelection(clearOnlyValue = false) {

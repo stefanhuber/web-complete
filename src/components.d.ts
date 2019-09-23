@@ -15,7 +15,7 @@ export namespace Components {
     'inputPlaceholder': string;
     'maxSuggestions': number;
     'minInput': number;
-    'suggestionGenerator': (text) => Promise<{text:string, value:string}[]>;
+    'suggestionGenerator': (text:string) => Promise<Array<{text:string, value:string}>>;
   }
 }
 
@@ -41,7 +41,7 @@ declare namespace LocalJSX {
     'minInput'?: number;
     'onSelected'?: (event: CustomEvent<any>) => void;
     'onUnselected'?: (event: CustomEvent<any>) => void;
-    'suggestionGenerator'?: (text) => Promise<{text:string, value:string}[]>;
+    'suggestionGenerator'?: (text:string) => Promise<Array<{text:string, value:string}>>;
   }
 
   interface IntrinsicElements {

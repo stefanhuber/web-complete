@@ -12,9 +12,6 @@ export const config: Config = {
     },
     {
       type: 'www',
-      copy: [
-        { src: 'demo' }
-      ],
       serviceWorker: null // disable service workers
     }
   ]
