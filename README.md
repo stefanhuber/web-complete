@@ -56,7 +56,7 @@ webcomplete.addEventListener('unselected', function(e) {
 });
 ```
 
-A full example with [Bootstrap 4 Dropdown](https://getbootstrap.com/docs/4.3/components/dropdowns/) theming can be found [here](src/index.html).
+A full example with [Bootstrap 4 Dropdown](https://getbootstrap.com/docs/4.3/components/dropdowns/) theming can be found [here](https://github.com/stefanhuber/web-complete/blob/master/docs/index.html).
 
 # Developer 
 
