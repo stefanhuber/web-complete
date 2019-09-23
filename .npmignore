@@ -1,9 +1,9 @@
-node_modules
-src
+node_modules/
+src/
+docs/
+.stencil/
+www/
 .gitignore
 tsconfig.json
-tsconfig.test.json
-.stencil
-www
 .editorconfig
 stencil.config.ts
