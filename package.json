@@ -1,6 +1,6 @@
 {
   "name": "web-complete",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A lightweight, dependency-free, styleable autocomplete web component",
   "keywords": ["autocomplete", "web-component"],
   "author": {
