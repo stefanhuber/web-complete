@@ -1,0 +1,22 @@
+:host {
+    --autocomplete-suggestion-focus-background: gray;
+}
+
+:host > div {
+    position:relative;
+    display:inline-block;
+}
+.suggestions {
+    position:absolute;
+    left:0;
+    right:0;
+}
+.suggestion {
+    display:block;
+    width:100%;
+    border:none;
+    text-align:left;
+}
+.suggestion:hover, .suggestion.active {
+    background:var(--autocomplete-suggestion-focus-background);
+}
