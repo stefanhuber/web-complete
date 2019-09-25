@@ -12,9 +12,9 @@ export namespace Components {
   interface WebComplete {
     'cssClasses': { wrapper: string; input: string; suggestions: string; suggestion: string; active: string; };
     'disabled': boolean;
-    'inputPlaceholder': string;
     'maxSuggestions': number;
     'minInput': number;
+    'placeholder': string;
     'suggestionGenerator': (text:string) => Promise<Array<{text:string, value:string}>>;
   }
 }
@@ -36,11 +36,11 @@ declare namespace LocalJSX {
   interface WebComplete extends JSXBase.HTMLAttributes<HTMLWebCompleteElement> {
     'cssClasses'?: { wrapper: string; input: string; suggestions: string; suggestion: string; active: string; };
     'disabled'?: boolean;
-    'inputPlaceholder'?: string;
     'maxSuggestions'?: number;
     'minInput'?: number;
     'onSelected'?: (event: CustomEvent<any>) => void;
     'onUnselected'?: (event: CustomEvent<any>) => void;
+    'placeholder'?: string;
     'suggestionGenerator'?: (text:string) => Promise<Array<{text:string, value:string}>>;
   }
 

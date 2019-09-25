@@ -10,8 +10,9 @@ export class Autocomplete {
   @State() value = "";
   @State() activeIndex = -1;
   @State() data:Array<{text:string, value:string}> = [];
+  @State() active:boolean = false;
 
-  @Prop() inputPlaceholder = "";
+  @Prop() placeholder = "";
   @Prop() disabled = false;
   @Prop() minInput = 0;
   @Prop() maxSuggestions = 5;
@@ -35,8 +36,7 @@ export class Autocomplete {
       event.preventDefault();
       this.handleSelection(this.activeIndex);      
     } else if (keyCode == 27) { // esc
-      this.clearSelection();
-      this.clearData();
+      this.handleClose();
     }
   }
 
@@ -45,7 +45,32 @@ export class Autocomplete {
       this.clearSelection(true);      
       this.prepareSuggestions(text);
     }
+    this.active = true;
     this.text = text;
+  }
+
+  handleFocus(e:FocusEvent) {
+    e.preventDefault();
+    this.active = true;
+  }
+
+  handleBlur(e:FocusEvent) {
+    e.preventDefault();
+
+    setTimeout(() => {
+      if (this.active) {
+        if (this.value) {
+          this.clearData();
+        } else {
+          this.handleClose();
+        }        
+      }
+    }, 250);
+  }
+
+  handleClose() {
+    this.clearSelection();
+    this.clearData();
   }
 
   handleActivation(next = true) {    
@@ -74,6 +99,7 @@ export class Autocomplete {
   clearData() {    
     this.data = [];
     this.activeIndex = -1;
+    this.active = false;
   }
 
   clearSelection(clearOnlyValue = false) {
@@ -106,11 +132,13 @@ export class Autocomplete {
           value={this.text}
           class={this.cssClasses.input} 
           onKeyDown={(e) => this.handleKeyDown(e.keyCode)}
-          onKeyUp={(e) => this.handleKeyUp(e.keyCode, e.target['value'])}        
+          onKeyUp={(e) => this.handleKeyUp(e.keyCode, e.target['value'])}
+          onBlur={(e) => {this.handleBlur(e)}}
+          onFocus={(e) => {this.handleFocus(e)}}     
           type="text"
           autocomplete="off"
           disabled={this.disabled}
-          placeholder={this.inputPlaceholder}
+          placeholder={this.placeholder}
           />
         { this.data && this.data.length > 0
           ? <div class={this.cssClasses.suggestions}>{ this.data.map((suggestion, index) => {
