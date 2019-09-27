@@ -58,6 +58,51 @@ webcomplete.addEventListener('unselected', function(e) {
 
 A full example with [Bootstrap 4 Dropdown](https://getbootstrap.com/docs/4.3/components/dropdowns/) theming can be found [here](https://github.com/stefanhuber/web-complete/blob/master/docs/index.html).
 
+# Component API
+
+## Properties
+
+| Property              | Attribute         | Description                                                                                                 | Type                                                                                           | Default                                                                                                                    |
+| --------------------- | ----------------- | ----------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `cssClasses`          | --                | The class names, which should be set on the rendered html elements                                          | `{ wrapper: string; input: string; suggestions: string; suggestion: string; active: string; }` | `{     wrapper: "",     input: "",     suggestions: "suggestions",     suggestion: "suggestion",     active: "active"   }` |
+| `disabled`            | `disabled`        | Enable/Disable the input field                                                                              | `boolean`                                                                                      | `false`                                                                                                                    |
+| `maxSuggestions`      | `max-suggestions` | The maximally shown suggestions in the list                                                                 | `number`                                                                                       | `5`                                                                                                                        |
+| `minInput`            | `min-input`       | The minimum input size for generating suggestions                                                           | `number`                                                                                       | `0`                                                                                                                        |
+| `placeholder`         | `placeholder`     | The placeholder for the input field                                                                         | `string`                                                                                       | `""`                                                                                                                       |
+| `suggestionGenerator` | --                | Async suggestion generator: `text` is the displayed for users `value` is the actual value of the form field | `(text: string) => Promise<{ text: string; value: string; }[]>`                                | `undefined`                                                                                                                |
+| `text`                | `text`            | The text is displayed by the form field for users                                                           | `string`                                                                                       | `""`                                                                                                                       |
+| `value`               | `value`           | The actual value of the form field                                                                          | `string`                                                                                       | `""`                                                                                                                       |
+
+
+## Events
+
+| Event        | Description                                        | Type               |
+| ------------ | -------------------------------------------------- | ------------------ |
+| `selected`   | Emitted when an item from suggestions was selected | `CustomEvent<any>` |
+| `unselected` | Emitted when item was cleared/unselected           | `CustomEvent<any>` |
+
+
+## Methods
+
+### `getText() => Promise<string>`
+
+Returns the `text` of the selected item
+
+#### Returns
+
+Type: `Promise<string>`
+
+
+
+### `getValue() => Promise<string>`
+
+Returns the `value` of the selected item
+
+#### Returns
+
+Type: `Promise<string>`
+
+
 # Developer 
 
 ```

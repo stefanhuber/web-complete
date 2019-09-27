@@ -10,12 +10,46 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 
 export namespace Components {
   interface WebComplete {
+    /**
+    * The class names, which should be set on the rendered html elements
+    */
     'cssClasses': { wrapper: string; input: string; suggestions: string; suggestion: string; active: string; };
+    /**
+    * Enable/Disable the input field
+    */
     'disabled': boolean;
+    /**
+    * Returns the `text` of selected item
+    */
+    'getText': () => Promise<string>;
+    /**
+    * Returns the `value` of selected item
+    */
+    'getValue': () => Promise<string>;
+    /**
+    * The maximally shown suggestions in the list
+    */
     'maxSuggestions': number;
+    /**
+    * The minimum input size for generating suggestions
+    */
     'minInput': number;
+    /**
+    * The placeholder for the input field
+    */
     'placeholder': string;
+    /**
+    * Async suggestion generator: `text` is the displayed for users `value` is the actual value of the form field
+    */
     'suggestionGenerator': (text:string) => Promise<Array<{text:string, value:string}>>;
+    /**
+    * The text is displayed by the form field for users
+    */
+    'text': string;
+    /**
+    * The actual value of the form field
+    */
+    'value': string;
   }
 }
 
@@ -34,14 +68,46 @@ declare global {
 
 declare namespace LocalJSX {
   interface WebComplete extends JSXBase.HTMLAttributes<HTMLWebCompleteElement> {
+    /**
+    * The class names, which should be set on the rendered html elements
+    */
     'cssClasses'?: { wrapper: string; input: string; suggestions: string; suggestion: string; active: string; };
+    /**
+    * Enable/Disable the input field
+    */
     'disabled'?: boolean;
+    /**
+    * The maximally shown suggestions in the list
+    */
     'maxSuggestions'?: number;
+    /**
+    * The minimum input size for generating suggestions
+    */
     'minInput'?: number;
+    /**
+    * Emitted when an item from suggestions was selected
+    */
     'onSelected'?: (event: CustomEvent<any>) => void;
+    /**
+    * Emitted when item was cleared/unselected
+    */
     'onUnselected'?: (event: CustomEvent<any>) => void;
+    /**
+    * The placeholder for the input field
+    */
     'placeholder'?: string;
+    /**
+    * Async suggestion generator: `text` is the displayed for users `value` is the actual value of the form field
+    */
     'suggestionGenerator'?: (text:string) => Promise<Array<{text:string, value:string}>>;
+    /**
+    * The text is displayed by the form field for users
+    */
+    'text'?: string;
+    /**
+    * The actual value of the form field
+    */
+    'value'?: string;
   }
 
   interface IntrinsicElements {

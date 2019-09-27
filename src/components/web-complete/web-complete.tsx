@@ -1,4 +1,4 @@
-import { Component, Prop, h, State, Event, EventEmitter } from '@stencil/core';
+import { Component, Prop, h, State, Event, EventEmitter, Method } from '@stencil/core';
 
 @Component({
   tag: 'web-complete',
@@ -6,17 +6,50 @@ import { Component, Prop, h, State, Event, EventEmitter } from '@stencil/core';
 })
 export class Autocomplete {
 
-  @State() text = "";
-  @State() value = "";
   @State() activeIndex = -1;
   @State() data:Array<{text:string, value:string}> = [];
   @State() active:boolean = false;
 
+  /**
+   * The text is displayed by the form field for users
+   */
+  @Prop({mutable: true}) text = "";
+
+  /**
+   * The actual value of the form field
+   */
+  @Prop({mutable: true}) value = "";
+
+  /**
+   * The placeholder for the input field
+   */
   @Prop() placeholder = "";
+
+  /**
+   * Enable/Disable the input field
+   */
   @Prop() disabled = false;
+
+  /**
+   * The minimum input size for generating suggestions
+   */
   @Prop() minInput = 0;
+
+  /**
+   * The maximally shown suggestions in the list
+   */
   @Prop() maxSuggestions = 5;
+
+  /**
+   * Async suggestion generator:
+   * `text` is the displayed for users
+   * `value` is the actual value of the form field
+   */
   @Prop() suggestionGenerator:(text:string) => Promise<Array<{text:string, value:string}>>;
+
+  /**
+   * The class names, which should be set on the rendered html elements
+   */
   @Prop() cssClasses = {
     wrapper: "",
     input: "",
@@ -25,8 +58,31 @@ export class Autocomplete {
     active: "active"
   };
 
+  /**
+   * Emitted when an item from suggestions was selected
+   */
   @Event() selected: EventEmitter;
+
+  /**
+   * Emitted when item was cleared/unselected
+   */
   @Event() unselected: EventEmitter; 
+
+  /**
+   * Returns the `value` of the selected item
+   */
+  @Method()
+  async getValue(): Promise<string> {
+    return this.value;
+  }
+
+  /**
+   * Returns the `text` of the selected item
+   */
+  @Method()
+  async getText(): Promise<string> {
+    return this.text;
+  }
 
   handleKeyDown(keyCode) {
     if (keyCode == 40 || keyCode == 38) { // up/down arrows
