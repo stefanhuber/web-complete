@@ -19,11 +19,11 @@ export namespace Components {
     */
     'disabled': boolean;
     /**
-    * Returns the `text` of selected item
+    * Returns the `text` of the selected item
     */
     'getText': () => Promise<string>;
     /**
-    * Returns the `value` of selected item
+    * Returns the `value` of the selected item
     */
     'getValue': () => Promise<string>;
     /**

@@ -31,7 +31,7 @@
 
 ### `getText() => Promise<string>`
 
-Returns the `text` of selected item
+Returns the `text` of the selected item
 
 #### Returns
 
@@ -41,7 +41,7 @@ Type: `Promise<string>`
 
 ### `getValue() => Promise<string>`
 
-Returns the `value` of selected item
+Returns the `value` of the selected item
 
 #### Returns
 
