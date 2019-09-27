@@ -3,7 +3,11 @@ sudo: required
 
 language: node_js
 node_js:
-- "8.11.3"
+  - 12
+
+before_script:
+  - npm i
+  - npm run build
 
 script:
  - npm test
