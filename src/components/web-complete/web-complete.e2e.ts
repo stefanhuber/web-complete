@@ -8,8 +8,11 @@ describe('web-complete', () => {
     const complete = await page.find('web-complete');
     const input = await page.find('web-complete input');
     
-    expect(complete.callMethod('getValue')).toEqual('123');
-    expect(complete.callMethod('getText')).toEqual('some demo text');
+    const value = await complete.callMethod('getValue');
+    const text = await complete.callMethod('getText');
+
+    expect(value).toEqual('123');
+    expect(text).toEqual('some demo text');
     expect(input.getAttribute('value')).toEqual('some demo text');
   });
 });
