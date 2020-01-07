@@ -11,6 +11,7 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 
 export namespace Components {
   interface WebComplete {
+    'clear': () => Promise<void>;
     /**
     * The class names, which should be set on the rendered html elements
     */
@@ -40,9 +41,9 @@ export namespace Components {
     */
     'placeholder': string;
     /**
-    * Async suggestion generator: `text` is the displayed for users `value` is the actual value of the form field
+    * Async suggestion generator: `text` is the displayed for users in the form after selection (if no `suggesion` also as suggesion) `value` is the actual value of the form field optional `suggesion` if the autocomplete suggestion item should be formatted differently than `text`
     */
-    'suggestionGenerator': (text:string) => Promise<Array<{text:string, value:string}>>;
+    'suggestionGenerator': (text:string) => Promise<Array<{text:string, value:string, suggestion?:string}>>;
     /**
     * The text is displayed by the form field for users
     */
@@ -98,9 +99,9 @@ declare namespace LocalJSX {
     */
     'placeholder'?: string;
     /**
-    * Async suggestion generator: `text` is the displayed for users `value` is the actual value of the form field
+    * Async suggestion generator: `text` is the displayed for users in the form after selection (if no `suggesion` also as suggesion) `value` is the actual value of the form field optional `suggesion` if the autocomplete suggestion item should be formatted differently than `text`
     */
-    'suggestionGenerator'?: (text:string) => Promise<Array<{text:string, value:string}>>;
+    'suggestionGenerator'?: (text:string) => Promise<Array<{text:string, value:string, suggestion?:string}>>;
     /**
     * The text is displayed by the form field for users
     */

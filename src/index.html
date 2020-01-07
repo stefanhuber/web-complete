@@ -10,7 +10,7 @@
   <script nomodule src="/build/web-complete.js"></script>
 
 </head>
-<body style="padding:50px;">
+<body style="padding:50px 25px;">
 
     <section>
       <form>
@@ -22,10 +22,13 @@
     </section>
     <section id="country-selection" style="padding-top:5px;">
     </section>
+    <section style="padding-top:20px;">
+      <button id="clear-button" class="btn btn-primary">Clear</button>
+    </section>
               
     <script>
       const webcomplete = document.querySelector('web-complete');
-      
+            
       webcomplete.cssClasses = {
         "wrapper": "dropdown",
         "input": "form-control",
@@ -35,26 +38,35 @@
       };
       
       webcomplete.suggestionGenerator = function(text) {
-      return fetch("https://stefanhuber.github.io/web-complete/countries.json")
-        .then(response => response.json())
-        .then(countries => countries.filter(country => {
-          const name = country.name.toLowerCase();
-          return name.search(text.toLowerCase()) >= 0;
-        }))
-        .then(countries => countries.map(country => {
-          return {
-            text:country.name,
-            value:country.code
-          };
-        }));      
+        return fetch("https://stefanhuber.github.io/web-complete/countries.json")
+          .then(response => response.json())
+          .then(countries => countries.filter(country => {
+            const name = country.name.toLowerCase();
+            return name.search(text.toLowerCase()) >= 0;
+          }))
+          .then(countries => countries.map(country => {
+            return {
+              text:country.name,
+              value:country.code,
+              suggestion:`${country.name} (${country.code})`
+            };
+          }));      
       };
   
       webcomplete.addEventListener('selected', function(e) {
         document.querySelector('#country-selection').innerHTML = `Your selection: <strong>${e.detail.text}</strong>`;
       });
+
       webcomplete.addEventListener('unselected', function(e) {
           document.querySelector('#country-selection').innerHTML = "";
       });
+
+      const clearButton = document.querySelector('#clear-button');
+
+      clearButton.addEventListener('click', function() {
+        webcomplete.clear();
+      });
+
     </script>
 </body>
 </html>

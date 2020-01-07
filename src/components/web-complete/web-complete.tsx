@@ -7,7 +7,7 @@ import { Component, Prop, h, State, Event, EventEmitter, Method } from '@stencil
 export class Autocomplete {
 
   @State() activeIndex = -1;
-  @State() data:Array<{text:string, value:string}> = [];
+  @State() data:Array<{text:string, value:string, suggestion?:string}> = [];
   @State() active:boolean = false;
 
   /**
@@ -42,10 +42,11 @@ export class Autocomplete {
 
   /**
    * Async suggestion generator:
-   * `text` is the displayed for users
+   * `text` is the displayed for users in the form after selection (if no `suggesion` also as suggesion)
    * `value` is the actual value of the form field
+   * optional `suggesion` if the autocomplete suggestion item should be formatted differently than `text`
    */
-  @Prop() suggestionGenerator:(text:string) => Promise<Array<{text:string, value:string}>>;
+  @Prop() suggestionGenerator:(text:string) => Promise<Array<{text:string, value:string, suggestion?:string}>>;
 
   /**
    * The class names, which should be set on the rendered html elements
@@ -82,6 +83,14 @@ export class Autocomplete {
   @Method()
   async getText(): Promise<string> {
     return this.text;
+  }
+
+  /*
+  * Clears the form field
+  */
+  @Method()
+  async clear() {
+    this.handleClose();
   }
 
   handleKeyDown(keyCode) {
@@ -201,7 +210,7 @@ export class Autocomplete {
             return <button onClick={ () => this.handleSelection(index) }
                            type="button"
                            class={this.cssClasses.suggestion + (this.activeIndex == index ? (" " + this.cssClasses.active) : "")}
-                           data-value={suggestion.value}>{suggestion.text}</button>
+                           data-value={suggestion.value}>{suggestion.suggestion ? suggestion.suggestion : suggestion.text}</button>
           })}</div>
           : ""
         }
