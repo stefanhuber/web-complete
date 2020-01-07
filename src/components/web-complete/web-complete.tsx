@@ -199,6 +199,7 @@ export class Autocomplete {
         { this.data && this.data.length > 0
           ? <div class={this.cssClasses.suggestions}>{ this.data.map((suggestion, index) => {
             return <button onClick={ () => this.handleSelection(index) }
+                           type="button"
                            class={this.cssClasses.suggestion + (this.activeIndex == index ? (" " + this.cssClasses.active) : "")}
                            data-value={suggestion.value}>{suggestion.text}</button>
           })}</div>
