@@ -11,6 +11,9 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 
 export namespace Components {
   interface WebComplete {
+    /**
+    * Clears the form field (suggestions and selection)
+    */
     'clear': () => Promise<void>;
     /**
     * The class names, which should be set on the rendered html elements

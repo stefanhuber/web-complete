@@ -85,9 +85,9 @@ export class Autocomplete {
     return this.text;
   }
 
-  /*
-  * Clears the form field
-  */
+  /**
+   * Clears the form field (suggestions and selection)
+   */
   @Method()
   async clear() {
     this.handleClose();
