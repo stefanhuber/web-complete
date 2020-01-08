@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
   <title>Web Complete</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
   <script type="module" src="/build/web-complete.esm.js"></script>
   <script nomodule src="/build/web-complete.js"></script>
@@ -13,10 +13,10 @@
 <body style="padding:50px 25px;">
 
     <section>
-      <form>
+      <form novalidate>
         <div class="form-group">
             <label for="countries">Select a country:</label>
-            <web-complete id="countries" text="Austria" value="AT" placeholder="test" min-input="2" max-suggestions="7"></web-complete>
+            <web-complete required input-id="countries" text="Austria" value="AT" placeholder="select a country" min-input="2" max-suggestions="7"></web-complete>
         </div>
       </form>
     </section>
@@ -24,10 +24,12 @@
     </section>
     <section style="padding-top:20px;">
       <button id="clear-button" class="btn btn-primary">Clear</button>
+      <button id="validation-button" class="btn btn-primary">Validate</button>
     </section>
               
     <script>
       const webcomplete = document.querySelector('web-complete');
+      const form = document.querySelector('form');
             
       webcomplete.cssClasses = {
         "wrapper": "dropdown",
@@ -59,12 +61,16 @@
 
       webcomplete.addEventListener('unselected', function(e) {
           document.querySelector('#country-selection').innerHTML = "";
+          form.classList.remove('was-validated');
       });
 
-      const clearButton = document.querySelector('#clear-button');
-
-      clearButton.addEventListener('click', function() {
+      document.querySelector('#clear-button').addEventListener('click', function() {
         webcomplete.clear();
+      });
+
+      document.querySelector('#validation-button').addEventListener('click', function() {        
+        form.checkValidity();
+        form.classList.add('was-validated');
       });
 
     </script>

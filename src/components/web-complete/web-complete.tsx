@@ -41,6 +41,16 @@ export class Autocomplete {
   @Prop() maxSuggestions = 5;
 
   /**
+   * Form validation: is the form input required
+   */
+  @Prop() required = false;
+
+  /**
+   * id of the input field
+   */
+  @Prop() inputId = "";
+
+  /**
    * Async suggestion generator:
    * `text` is the displayed for users in the form after selection (if no `suggesion` also as suggesion)
    * `value` is the actual value of the form field
@@ -201,6 +211,8 @@ export class Autocomplete {
           onBlur={(e) => {this.handleBlur(e)}}
           onFocus={(e) => {this.handleFocus(e)}}     
           type="text"
+          id={this.inputId}
+          required={this.required}
           autocomplete="off"
           disabled={this.disabled}
           placeholder={this.placeholder}
@@ -208,7 +220,7 @@ export class Autocomplete {
         { this.data && this.data.length > 0
           ? <div class={this.cssClasses.suggestions}>{ this.data.map((suggestion, index) => {
             return <button onClick={ () => this.handleSelection(index) }
-                           type="button"
+                           type="button"                           
                            class={this.cssClasses.suggestion + (this.activeIndex == index ? (" " + this.cssClasses.active) : "")}
                            data-value={suggestion.value}>{suggestion.suggestion ? suggestion.suggestion : suggestion.text}</button>
           })}</div>

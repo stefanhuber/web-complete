@@ -32,6 +32,10 @@ export namespace Components {
     */
     'getValue': () => Promise<string>;
     /**
+    * id of the input field
+    */
+    'inputId': string;
+    /**
     * The maximally shown suggestions in the list
     */
     'maxSuggestions': number;
@@ -43,6 +47,10 @@ export namespace Components {
     * The placeholder for the input field
     */
     'placeholder': string;
+    /**
+    * Form validation: is the form input required
+    */
+    'required': boolean;
     /**
     * Async suggestion generator: `text` is the displayed for users in the form after selection (if no `suggesion` also as suggesion) `value` is the actual value of the form field optional `suggesion` if the autocomplete suggestion item should be formatted differently than `text`
     */
@@ -82,6 +90,10 @@ declare namespace LocalJSX {
     */
     'disabled'?: boolean;
     /**
+    * id of the input field
+    */
+    'inputId'?: string;
+    /**
     * The maximally shown suggestions in the list
     */
     'maxSuggestions'?: number;
@@ -101,6 +113,10 @@ declare namespace LocalJSX {
     * The placeholder for the input field
     */
     'placeholder'?: string;
+    /**
+    * Form validation: is the form input required
+    */
+    'required'?: boolean;
     /**
     * Async suggestion generator: `text` is the displayed for users in the form after selection (if no `suggesion` also as suggesion) `value` is the actual value of the form field optional `suggesion` if the autocomplete suggestion item should be formatted differently than `text`
     */
