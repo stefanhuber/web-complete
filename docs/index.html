@@ -143,7 +143,7 @@
         const webcomplete3 = document.querySelector('#example-3 web-complete');
         const form3 = document.querySelector('#example3 form');
               
-        webcomplete2.cssClasses = {
+        webcomplete3.cssClasses = {
           "wrapper": "dropdown",
           "input": "form-control",
           "suggestions": "dropdown-menu show",
@@ -151,7 +151,7 @@
           "active": "active"
         };
         
-        webcomplete2.suggestionGenerator = function(text) {
+        webcomplete3.suggestionGenerator = function(text) {
           return fetch("https://stefanhuber.github.io/web-complete/countries.json")
             .then(response => response.json())
             .then(countries => countries.filter(country => {
@@ -166,11 +166,11 @@
             }));      
         };
     
-        webcomplete2.addEventListener('selected', function(e) {
+        webcomplete3.addEventListener('selected', function(e) {
           document.querySelector('#example-3 section:nth-child(3)').innerHTML = `Your selection: <strong>${e.detail.text}</strong>`;
         });
     
-        webcomplete2.addEventListener('unselected', function(e) {
+        webcomplete3.addEventListener('unselected', function(e) {
             document.querySelector('#example-3 section:nth-child(3)').innerHTML = "";
         });
 
