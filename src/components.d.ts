@@ -36,6 +36,10 @@ export namespace Components {
     */
     'inputId': string;
     /**
+    * A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`.
+    */
+    'inputmode'?: 'none' | 'text' | 'tel' | 'url' | 'email' | 'numeric' | 'decimal' | 'search';
+    /**
     * The maximally shown suggestions in the list
     */
     'maxSuggestions': number;
@@ -93,6 +97,10 @@ declare namespace LocalJSX {
     * id of the input field
     */
     'inputId'?: string;
+    /**
+    * A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`.
+    */
+    'inputmode'?: 'none' | 'text' | 'tel' | 'url' | 'email' | 'numeric' | 'decimal' | 'search';
     /**
     * The maximally shown suggestions in the list
     */

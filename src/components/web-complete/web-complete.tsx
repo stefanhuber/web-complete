@@ -1,10 +1,10 @@
-import { Component, Prop, h, State, Event, EventEmitter, Method } from '@stencil/core';
+import { Component, ComponentInterface, Prop, h, State, Event, EventEmitter, Method } from '@stencil/core';
 
 @Component({
   tag: 'web-complete',
   shadow: false
 })
-export class Autocomplete {
+export class Autocomplete implements ComponentInterface {
 
   @State() activeIndex = -1;
   @State() data:Array<{text:string, value:string, suggestion?:string}> = [];
@@ -44,6 +44,13 @@ export class Autocomplete {
    * Form validation: is the form input required
    */
   @Prop() required = false;
+
+  /**
+   * A hint to the browser for which keyboard to display.
+   * Possible values: `"none"`, `"text"`, `"tel"`, `"url"`,
+   * `"email"`, `"numeric"`, `"decimal"`, and `"search"`.
+   */
+  @Prop() inputmode?: 'none' | 'text' | 'tel' | 'url' | 'email' | 'numeric' | 'decimal' | 'search';
 
   /**
    * id of the input field
@@ -210,7 +217,8 @@ export class Autocomplete {
           onKeyUp={(e) => this.handleKeyUp(e.keyCode, e.target['value'])}
           onBlur={(e) => {this.handleBlur(e)}}
           onFocus={(e) => {this.handleFocus(e)}}     
-          type="text"
+          type="text"          
+          inputMode={this.inputmode}
           id={this.inputId}
           required={this.required}
           autocomplete="off"
