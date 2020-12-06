@@ -180,6 +180,10 @@ export class Autocomplete implements ComponentInterface {
       this.value = this.data[index].value;
       this.selected.emit(this.data[index]);
       this.clearData();
+    } else {
+      if (!this.clearOnUnselectedClosing) {
+        this.handleClose();
+      }
     }
   }
 
@@ -195,13 +199,14 @@ export class Autocomplete implements ComponentInterface {
         text: this.text,
         value: this.value
       });
-      console.log("this.clearOnUnselectedClosing", this.clearOnUnselectedClosing);
       if (this.clearOnUnselectedClosing) {
         this.value = "";
       }
     }
     if (!clearOnlyValue) {
-      this.text = "";
+      if (this.clearOnUnselectedClosing) {
+        this.text = "";
+      }
     }
   }
 
