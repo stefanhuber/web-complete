@@ -16,6 +16,10 @@ export namespace Components {
     */
     'clear': () => Promise<void>;
     /**
+    * Clear if no selection or not
+    */
+    'clearOnUnselectedClosing': boolean;
+    /**
     * The class names, which should be set on the rendered html elements
     */
     'cssClasses': { wrapper: string; input: string; suggestions: string; suggestion: string; active: string; };
@@ -58,7 +62,7 @@ export namespace Components {
     /**
     * Async suggestion generator: `text` is the displayed for users in the form after selection (if no `suggesion` also as suggesion) `value` is the actual value of the form field optional `suggesion` if the autocomplete suggestion item should be formatted differently than `text`
     */
-    'suggestionGenerator': (text:string) => Promise<Array<{text:string, value:string, suggestion?:string}>>;
+    'suggestionGenerator': (text: string) => Promise<Array<{ text: string, value: string, suggestion?: string }>>;
     /**
     * The text is displayed by the form field for users
     */
@@ -85,6 +89,10 @@ declare global {
 
 declare namespace LocalJSX {
   interface WebComplete {
+    /**
+    * Clear if no selection or not
+    */
+    'clearOnUnselectedClosing'?: boolean;
     /**
     * The class names, which should be set on the rendered html elements
     */
@@ -128,7 +136,7 @@ declare namespace LocalJSX {
     /**
     * Async suggestion generator: `text` is the displayed for users in the form after selection (if no `suggesion` also as suggesion) `value` is the actual value of the form field optional `suggesion` if the autocomplete suggestion item should be formatted differently than `text`
     */
-    'suggestionGenerator'?: (text:string) => Promise<Array<{text:string, value:string, suggestion?:string}>>;
+    'suggestionGenerator'?: (text: string) => Promise<Array<{ text: string, value: string, suggestion?: string }>>;
     /**
     * The text is displayed by the form field for users
     */
