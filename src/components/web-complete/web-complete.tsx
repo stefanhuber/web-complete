@@ -203,10 +203,8 @@ export class Autocomplete implements ComponentInterface {
         this.value = "";
       }
     }
-    if (!clearOnlyValue) {
-      if (this.clearOnUnselectedClosing) {
-        this.text = "";
-      }
+    if (!clearOnlyValue && this.clearOnUnselectedClosing) {
+      this.text = "";
     }
   }
 
