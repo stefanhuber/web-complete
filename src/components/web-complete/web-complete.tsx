@@ -7,23 +7,28 @@ import { Component, ComponentInterface, Prop, h, State, Event, EventEmitter, Met
 export class Autocomplete implements ComponentInterface {
 
   @State() activeIndex = -1; // focused suggestion
-  @State() data:Array<{text:string, value:string, suggestion?:string}> = [];
+  @State() data:Array< {text:string, value:string, suggestion?:string }> = [];
   @State() active:boolean = false; // has focus
 
   /**
    * The text is displayed by the form field for users
    */
-  @Prop({mutable: true}) text = "";
+  @Prop({ mutable: true }) text = "";
 
   /**
    * The actual value of the form field
    */
-  @Prop({mutable: true}) value = "";
+  @Prop({ mutable: true }) value = "";
 
   /**
    * The placeholder for the input field
    */
   @Prop() placeholder = "";
+
+  /**
+   * If no value is selected, clear the input and emit unselected, if false, the value will not be cleared (usefull for suggesting values on a free text search)
+   */
+  @Prop() clearOnUnselectedClosing: boolean = true;
 
   /**
    * Enable/Disable the input field
@@ -63,7 +68,7 @@ export class Autocomplete implements ComponentInterface {
    * `value` is the actual value of the form field
    * optional `suggesion` if the autocomplete suggestion item should be formatted differently than `text`
    */
-  @Prop() suggestionGenerator:(text:string) => Promise<Array<{text:string, value:string, suggestion?:string}>>;
+  @Prop() suggestionGenerator: (text: string) => Promise<Array<{ text: string, value: string, suggestion?: string }>>;
 
   /**
    * The class names, which should be set on the rendered html elements
@@ -84,7 +89,7 @@ export class Autocomplete implements ComponentInterface {
   /**
    * Emitted when item was cleared/unselected
    */
-  @Event() unselected: EventEmitter; 
+  @Event() unselected: EventEmitter;
 
   /**
    * Returns the `value` of the selected item
@@ -131,12 +136,12 @@ export class Autocomplete implements ComponentInterface {
     this.text = text;
   }
 
-  handleFocus(e:FocusEvent) {
+  handleFocus(e: FocusEvent) {
     e.preventDefault();
     this.active = true;
   }
 
-  handleBlur(e:FocusEvent) {
+  handleBlur(e: FocusEvent) {
     e.preventDefault();
 
     setTimeout(() => {
@@ -145,7 +150,7 @@ export class Autocomplete implements ComponentInterface {
           this.clearData();
         } else {
           this.handleClose();
-        }        
+        }
       }
     }, 250);
   }
@@ -155,7 +160,7 @@ export class Autocomplete implements ComponentInterface {
     this.clearData();
   }
 
-  handleActivation(next = true) {    
+  handleActivation(next = true) {
     if (this.data.length > 0) {
       if (next && (this.activeIndex + 1) < this.data.length) {
         this.activeIndex += 1;
@@ -166,7 +171,7 @@ export class Autocomplete implements ComponentInterface {
       } else if (!next) {
         this.activeIndex = this.data.length - 1;
       }
-    }    
+    }
   }
 
   handleSelection(index) {
@@ -175,10 +180,12 @@ export class Autocomplete implements ComponentInterface {
       this.value = this.data[index].value;
       this.selected.emit(this.data[index]);
       this.clearData();
+    } else if (!this.clearOnUnselectedClosing) {
+        this.handleClose();
     }
   }
 
-  clearData() {    
+  clearData() {
     this.data = [];
     this.activeIndex = -1;
     this.active = false;
@@ -190,9 +197,11 @@ export class Autocomplete implements ComponentInterface {
         text: this.text,
         value: this.value
       });
-      this.value = "";
+      if (this.clearOnUnselectedClosing) {
+        this.value = "";
+      }
     }
-    if (!clearOnlyValue) {
+    if (!clearOnlyValue && this.clearOnUnselectedClosing) {
       this.text = "";
     }
   }
@@ -206,8 +215,8 @@ export class Autocomplete implements ComponentInterface {
       this.data = [];
     }
   }
-  
-  render() {    
+
+  render() {
     return (
       <div class={this.cssClasses.wrapper}>
         <input          
@@ -226,11 +235,11 @@ export class Autocomplete implements ComponentInterface {
           value={this.text}
           />
         { this.data && this.data.length > 0
-          ? <div class={this.cssClasses.suggestions}>{ this.data.map((suggestion, index) => {
-            return <button onClick={ () => this.handleSelection(index) }
-                           type="button"                           
-                           class={this.cssClasses.suggestion + (this.activeIndex == index ? (" " + this.cssClasses.active) : "")}
-                           data-value={suggestion.value}>{suggestion.suggestion ? suggestion.suggestion : suggestion.text}</button>
+          ? <div class={this.cssClasses.suggestions}>{this.data.map((suggestion, index) => {
+            return <button onClick={() => this.handleSelection(index)}
+              type="button"
+              class={this.cssClasses.suggestion + (this.activeIndex == index ? (" " + this.cssClasses.active) : "")}
+              data-value={suggestion.value}>{suggestion.suggestion ? suggestion.suggestion : suggestion.text}</button>
           })}</div>
           : ""
         }
