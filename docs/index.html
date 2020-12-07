@@ -196,6 +196,50 @@
       </script>
     </section>
 
+    <section id="example-3" style="padding-top:40px;">
+      <h2>Keep text also if no suggestion fits</h2>
+      <section>
+        <form novalidate>
+          <div class="form-group row">
+            <div class="col-sm-12">
+              <label for="countries4">Select a country:</label>
+            </div>
+            <div class="col-9">              
+              <web-complete required input-id="countries4" placeholder="select a country" min-input="2" max-suggestions="7"></web-complete>
+            </div>            
+          </div>
+        </form>
+      </section>  
+      <section style="padding-top:5px;">
+      </section>      
+      <script>
+        const webcomplete4 = document.querySelector('#example-4 web-complete');
+              
+        webcomplete4.cssClasses = {
+          "wrapper": "dropdown",
+          "input": "form-control",
+          "suggestions": "dropdown-menu show",
+          "suggestion": "dropdown-item",
+          "active": "active"
+        };
+        
+        webcomplete4.suggestionGenerator = function(text) {
+          return fetch("https://stefanhuber.github.io/web-complete/countries.json")
+            .then(response => response.json())
+            .then(countries => countries.filter(country => {
+              const name = country.name.toLowerCase();
+              return name.search(text.toLowerCase()) >= 0;
+            }))
+            .then(countries => countries.map(country => {
+              return {
+                text:country.name,
+                value:country.code
+              };
+            }));      
+        };    
+      </script>
+    </section>
+
   </main>
 
 </body>

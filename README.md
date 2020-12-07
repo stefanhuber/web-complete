@@ -7,13 +7,15 @@
 ## Script tag
 
 ```html
-<script src='https://unpkg.com/web-complete/dist/web-complete.js'></script>
+<script type="module" src="https://unpkg.com/web-complete/dist/web-complete.esm.js"></script>
+<script nomodule src="https://unpkg.com/web-complete/dist/web-complete.js"></script>
 ```
 
 ## Node Module
 
  - Install via npm: `npm install web-complete --save`
  - Add script to html: `<script src='node_modules/web-complete/dist/web-complete.js'></script>`
+ - Or import as JS module: `import 'web-complete';`
 
 ## Framework integration
 
