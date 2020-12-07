@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Web Complete Demo</title>
-    <script src='https://unpkg.com/web-complete/dist/web-complete.js'></script>
+
+    <script type="module" src='https://unpkg.com/web-complete'></script>
+    <script nomodule src='https://unpkg.com/web-complete/dist/web-complete/web-complete.js'></script>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 </head>
 <body style="padding:50px 25px;">
@@ -196,7 +199,7 @@
       </script>
     </section>
 
-    <section id="example-3" style="padding-top:40px;">
+    <section id="example-4" style="padding-top:40px;">
       <h2>Keep text also if no suggestion fits</h2>
       <section>
         <form novalidate>
@@ -205,7 +208,7 @@
               <label for="countries4">Select a country:</label>
             </div>
             <div class="col-9">              
-              <web-complete required input-id="countries4" placeholder="select a country" min-input="2" max-suggestions="7"></web-complete>
+              <web-complete clear-on-unselected-closing="false" required input-id="countries4" placeholder="select a country" min-input="2" max-suggestions="7"></web-complete>
             </div>            
           </div>
         </form>
