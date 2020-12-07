@@ -6,9 +6,9 @@ import { Component, ComponentInterface, Prop, h, State, Event, EventEmitter, Met
 })
 export class Autocomplete implements ComponentInterface {
 
-  @State() activeIndex = -1;
+  @State() activeIndex = -1; // focused suggestion
   @State() data:Array<{text:string, value:string, suggestion?:string}> = [];
-  @State() active:boolean = false;
+  @State() active:boolean = false; // has focus
 
   /**
    * The text is displayed by the form field for users
@@ -110,20 +110,20 @@ export class Autocomplete implements ComponentInterface {
     this.handleClose();
   }
 
-  handleKeyDown(keyCode) {
-    if (keyCode == 40 || keyCode == 38) { // up/down arrows
-      event.preventDefault();
-      this.handleActivation(keyCode == 40)
-    } else if (keyCode == 13 || keyCode == 9) { // enter/tab
-      event.preventDefault();
+  handleKeyDown(e:KeyboardEvent) {
+    if (["ArrowDown", "ArrowUp", "Down", "Up"].indexOf(e.key) >= 0) { // some older browsers use Up/Down instead of ArrayUp/ArrowDown (https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values)
+      e.preventDefault();
+      this.handleActivation(e.key == "ArrowDown" || e.key == "Down")
+    } else if (e.key == "Enter" || e.key == "Tab") {
+      e.preventDefault();
       this.handleSelection(this.activeIndex);      
-    } else if (keyCode == 27) { // esc
+    } else if (e.key == "Escape") {
       this.handleClose();
     }
   }
 
-  handleKeyUp(keyCode, text) {
-    if ([40,38,13,9,27].indexOf(keyCode) < 0) {
+  handleKeyUp(key, text) {
+    if (["ArrowDown", "ArrowUp", "Enter", "Tab", "Escape"].indexOf(key) < 0) { // IE doesn't have Array.includes (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes)
       this.clearSelection(true);      
       this.prepareSuggestions(text);
     }
@@ -210,11 +210,10 @@ export class Autocomplete implements ComponentInterface {
   render() {    
     return (
       <div class={this.cssClasses.wrapper}>
-        <input
-          value={this.text}
+        <input          
           class={this.cssClasses.input} 
-          onKeyDown={(e) => this.handleKeyDown(e.keyCode)}
-          onKeyUp={(e) => this.handleKeyUp(e.keyCode, e.target['value'])}
+          onKeyDown={(e) => this.handleKeyDown(e)}
+          onKeyUp={(e) => this.handleKeyUp(e.key, e.target['value'])}
           onBlur={(e) => {this.handleBlur(e)}}
           onFocus={(e) => {this.handleFocus(e)}}     
           type="text"          
@@ -224,6 +223,7 @@ export class Autocomplete implements ComponentInterface {
           autocomplete="off"
           disabled={this.disabled}
           placeholder={this.placeholder}
+          value={this.text}
           />
         { this.data && this.data.length > 0
           ? <div class={this.cssClasses.suggestions}>{ this.data.map((suggestion, index) => {
