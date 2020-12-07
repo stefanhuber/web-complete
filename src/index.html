@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
@@ -10,69 +11,72 @@
   <script nomodule src="/build/web-complete.js"></script>
 
 </head>
+
 <body style="padding:50px 25px;">
 
-    <section>
-      <form novalidate>
-        <div class="form-group">
-            <label for="countries">Select a country:</label>
-            <web-complete required input-id="countries" text="Austria" value="AT" placeholder="select a country" min-input="2" max-suggestions="7"></web-complete>
-        </div>
-      </form>
-    </section>
-    <section id="country-selection" style="padding-top:5px;">
-    </section>
-    <section style="padding-top:20px;">
-      <button id="clear-button" class="btn btn-primary">Clear</button>
-      <button id="validation-button" class="btn btn-primary">Validate</button>
-    </section>
-              
-    <script>
-      const webcomplete = document.querySelector('web-complete');
-      const form = document.querySelector('form');
-            
-      webcomplete.cssClasses = {
-        "wrapper": "dropdown",
-        "input": "form-control",
-        "suggestions": "dropdown-menu show",
-        "suggestion": "dropdown-item",
-        "active": "active"
-      };
-      
-      webcomplete.suggestionGenerator = function(text) {
-        return fetch("https://stefanhuber.github.io/web-complete/countries.json")
-          .then(response => response.json())
-          .then(countries => countries.filter(country => {
-            const name = country.name.toLowerCase();
-            return name.search(text.toLowerCase()) >= 0;
-          }))
-          .then(countries => countries.map(country => {
-            return {
-              text:country.name,
-              value:country.code,
-              suggestion:`${country.name} (${country.code})`
-            };
-          }));      
-      };
-  
-      webcomplete.addEventListener('selected', function(e) {
-        document.querySelector('#country-selection').innerHTML = `Your selection: <strong>${e.detail.text}</strong>`;
-      });
+  <section>
+    <form novalidate>
+      <div class="form-group">
+        <label for="countries">Select a country:</label>
+        <web-complete clear-on-unselected-closing="false" required input-id="countries" text="Austria" value="AT"
+          placeholder="select a country" min-input="2" max-suggestions="7"></web-complete>
+      </div>
+    </form>
+  </section>
+  <section id="country-selection" style="padding-top:5px;">
+  </section>
+  <section style="padding-top:20px;">
+    <button id="clear-button" class="btn btn-primary">Clear</button>
+    <button id="validation-button" class="btn btn-primary">Validate</button>
+  </section>
 
-      webcomplete.addEventListener('unselected', function(e) {
-          document.querySelector('#country-selection').innerHTML = "";
-          form.classList.remove('was-validated');
-      });
+  <script>
+    const webcomplete = document.querySelector('web-complete');
+    const form = document.querySelector('form');
 
-      document.querySelector('#clear-button').addEventListener('click', function() {
-        webcomplete.clear();
-      });
+    webcomplete.cssClasses = {
+      "wrapper": "dropdown",
+      "input": "form-control",
+      "suggestions": "dropdown-menu show",
+      "suggestion": "dropdown-item",
+      "active": "active"
+    };
 
-      document.querySelector('#validation-button').addEventListener('click', function() {        
-        form.checkValidity();
-        form.classList.add('was-validated');
-      });
+    webcomplete.suggestionGenerator = function (text) {
+      return fetch("https://stefanhuber.github.io/web-complete/countries.json")
+        .then(response => response.json())
+        .then(countries => countries.filter(country => {
+          const name = country.name.toLowerCase();
+          return name.search(text.toLowerCase()) >= 0;
+        }))
+        .then(countries => countries.map(country => {
+          return {
+            text: country.name,
+            value: country.code,
+            suggestion: `${country.name} (${country.code})`
+          };
+        }));
+    };
 
-    </script>
+    webcomplete.addEventListener('selected', function (e) {
+      document.querySelector('#country-selection').innerHTML = `Your selection: <strong>${e.detail.text}</strong>`;
+    });
+
+    webcomplete.addEventListener('unselected', function (e) {
+      document.querySelector('#country-selection').innerHTML = "";
+      form.classList.remove('was-validated');
+    });
+
+    document.querySelector('#clear-button').addEventListener('click', function () {
+      webcomplete.clear();
+    });
+
+    document.querySelector('#validation-button').addEventListener('click', function () {
+      form.checkValidity();
+      form.classList.add('was-validated');
+    });
+
+  </script>
 </body>
+
 </html>
