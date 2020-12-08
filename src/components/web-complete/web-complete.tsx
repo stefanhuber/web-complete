@@ -145,7 +145,7 @@ export class Autocomplete implements ComponentInterface {
     e.preventDefault();
     this.active = true;
     if (this.emptySuggestionTime >= 0) {
-      this.prepareSuggestions(this.text).then(e => {
+      this.prepareSuggestions(this.text).then(() => {
         this.handleActivation(false);
       })
     }
