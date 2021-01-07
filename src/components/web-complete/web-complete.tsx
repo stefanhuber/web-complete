@@ -7,8 +7,8 @@ import { Component, ComponentInterface, Prop, h, State, Event, EventEmitter, Met
 export class Autocomplete implements ComponentInterface {
 
   @State() activeIndex = -1; // focused suggestion
-  @State() data:Array< {text:string, value:string, suggestion?:string }> = [];
-  @State() active:boolean = false; // has focus
+  @State() data: Array<{ text: string, value: string, suggestion?: string }> = [];
+  @State() active: boolean = false; // has focus
 
   /**
    * The text is displayed by the form field for users
@@ -44,6 +44,11 @@ export class Autocomplete implements ComponentInterface {
    * The maximally shown suggestions in the list
    */
   @Prop() maxSuggestions = 5;
+
+  /**
+   * Timing to suggest on empty (-1 to disable)
+   */
+  @Prop() emptySuggestionTime = -1;
 
   /**
    * Form validation: is the form input required
@@ -115,13 +120,13 @@ export class Autocomplete implements ComponentInterface {
     this.handleClose();
   }
 
-  handleKeyDown(e:KeyboardEvent) {
+  handleKeyDown(e: KeyboardEvent) {
     if (["ArrowDown", "ArrowUp", "Down", "Up"].indexOf(e.key) >= 0) { // some older browsers use Up/Down instead of ArrayUp/ArrowDown (https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values)
       e.preventDefault();
       this.handleActivation(e.key == "ArrowDown" || e.key == "Down")
     } else if (e.key == "Enter" || e.key == "Tab") {
       e.preventDefault();
-      this.handleSelection(this.activeIndex);      
+      this.handleSelection(this.activeIndex);
     } else if (e.key == "Escape") {
       this.handleClose();
     }
@@ -129,7 +134,7 @@ export class Autocomplete implements ComponentInterface {
 
   handleKeyUp(key, text) {
     if (["ArrowDown", "ArrowUp", "Enter", "Tab", "Escape"].indexOf(key) < 0) { // IE doesn't have Array.includes (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes)
-      this.clearSelection(true);      
+      this.clearSelection(true);
       this.prepareSuggestions(text);
     }
     this.active = true;
@@ -139,6 +144,11 @@ export class Autocomplete implements ComponentInterface {
   handleFocus(e: FocusEvent) {
     e.preventDefault();
     this.active = true;
+    if (this.emptySuggestionTime >= 0) {
+      this.prepareSuggestions(this.text).then(() => {
+        this.handleActivation(false);
+      })
+    }
   }
 
   handleBlur(e: FocusEvent) {
@@ -181,7 +191,7 @@ export class Autocomplete implements ComponentInterface {
       this.selected.emit(this.data[index]);
       this.clearData();
     } else if (!this.clearOnUnselectedClosing) {
-        this.handleClose();
+      this.handleClose();
     }
   }
 
@@ -219,13 +229,13 @@ export class Autocomplete implements ComponentInterface {
   render() {
     return (
       <div class={this.cssClasses.wrapper}>
-        <input          
-          class={this.cssClasses.input} 
+        <input
+          class={this.cssClasses.input}
           onKeyDown={(e) => this.handleKeyDown(e)}
           onKeyUp={(e) => this.handleKeyUp(e.key, e.target['value'])}
-          onBlur={(e) => {this.handleBlur(e)}}
-          onFocus={(e) => {this.handleFocus(e)}}     
-          type="text"          
+          onBlur={(e) => { this.handleBlur(e) }}
+          onFocus={(e) => { this.handleFocus(e) }}
+          type="text"
           inputMode={this.inputmode}
           id={this.inputId}
           required={this.required}
@@ -233,7 +243,7 @@ export class Autocomplete implements ComponentInterface {
           disabled={this.disabled}
           placeholder={this.placeholder}
           value={this.text}
-          />
+        />
         { this.data && this.data.length > 0
           ? <div class={this.cssClasses.suggestions}>{this.data.map((suggestion, index) => {
             return <button onClick={() => this.handleSelection(index)}

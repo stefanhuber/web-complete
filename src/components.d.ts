@@ -24,6 +24,10 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
+          * Timing to suggest on empty (-1 to disable)
+         */
+        "emptySuggestionTime": number;
+        /**
           * Returns the `text` of the selected item
          */
         "getText": () => Promise<string>;
@@ -94,6 +98,10 @@ declare namespace LocalJSX {
           * Enable/Disable the input field
          */
         "disabled"?: boolean;
+        /**
+          * Timing to suggest on empty (-1 to disable)
+         */
+        "emptySuggestionTime"?: number;
         /**
           * id of the input field
          */
